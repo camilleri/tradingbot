@@ -19,9 +19,8 @@ namespace bot
 
         private static void ConfigureServices(IServiceCollection serviceCollection)
         {
-            var connection = @"Server=localhost;Database=tradingbot;User=sa;Password=yourStrong(!)Password;";
-            serviceCollection.AddDbContext<BotContext>(options => options.UseSqlServer(connection));
-
+            serviceCollection.AddDbContext<BotContext>(options => BotContextFactory.BuildSqlOptions());
+            
             // add bot
             serviceCollection.AddTransient<Bot>();
         }

@@ -8,6 +8,24 @@ namespace DataModel
         public BotContext(DbContextOptions<BotContext> options) : base(options)
         { }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DailyOHLCV>()
+                .HasKey(x => new { x.BaseCurrency, x.QuoteCurrency, x.Time });
+            modelBuilder.Entity<PercentageOfChangeAction>()
+                .HasKey(x => new { x.BaseCurrency, x.QuoteCurrency, x.Time });
+            modelBuilder.Entity<PercentageOfChangeConfiguration>()
+                .HasKey(x => new { x.BaseCurrency, x.QuoteCurrency, x.Time });
+            modelBuilder.Entity<PercentageOfChangeTrend>()
+                .HasKey(x => new { x.BaseCurrency, x.QuoteCurrency, x.Time });
+            modelBuilder.Entity<UnitsOfChangeAction>()
+                .HasKey(x => new { x.BaseCurrency, x.QuoteCurrency, x.Time });
+            modelBuilder.Entity<UnitsOfChangeConfiguration>()
+                .HasKey(x => new { x.BaseCurrency, x.QuoteCurrency, x.Time });
+            modelBuilder.Entity<UnitsOfChangeTrend>()                                                                                                            
+                .HasKey(x => new { x.BaseCurrency, x.QuoteCurrency, x.Time });            
+        }
+
         public DbSet<DailyOHLCV> DailyOHLCVs { get; set; }
         public DbSet<PercentageOfChangeAction> PercentageOfChangeActions { get; set; }
         public DbSet<PercentageOfChangeConfiguration> PercentageOfChangeConfigurations { get; set; }
