@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataModel
+namespace bot.DataModel
 {
     public class UnitsOfChangeConfiguration
     {

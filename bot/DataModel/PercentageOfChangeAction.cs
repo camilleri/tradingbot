@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataModel
+namespace bot.DataModel
 {
     public class PercentageOfChangeAction
     {
@@ -21,7 +21,7 @@ namespace DataModel
         public DateTime Time { get; set; }
 
         [Required]
-        [ForeignKey(nameof(DataModel.TradeAction))]        
+        [ForeignKey(nameof(bot.DataModel.TradeAction))]        
         public TradeAction TradeAction { get; set; }
 
         [Required]

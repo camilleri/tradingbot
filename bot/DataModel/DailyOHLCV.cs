@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataModel
+namespace bot.DataModel
 {
     public class DailyOHLCV
     {
@@ -33,6 +33,6 @@ namespace DataModel
         public double VolumeFrom { get; set; }      
 
         [Required]
-        public double VolumeTo { get; set; }             
+        public double VolumeTo { get; set; }          
     }
 }

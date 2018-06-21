@@ -9,6 +9,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.0" />
+    <PackageReference Include="paramore.brighter" Version="7.4.2" />
+    <PackageReference Include="Paramore.Brighter.AspNetCore" Version="1.0.13" />
+    <PackageReference Include="paramore.darker" Version="1.1.0" />
+    <PackageReference Include="Paramore.Darker.AspNetCore" Version="1.1.2" />
   </ItemGroup>
 
 </Project>

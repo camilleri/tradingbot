@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace DataModel
+namespace bot.DataModel
 {
     public class BotContext : DbContext
     {

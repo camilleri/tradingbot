@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataModel
+namespace bot.DataModel
 {
     public class PercentageOfChangeTrend
     {
@@ -29,7 +29,7 @@ namespace DataModel
         [Required]
         public int DaysWithNoTrend { get; set; } = 0;
 
-        [ForeignKey(nameof(DataModel.TradeAction))]
+        [ForeignKey(nameof(bot.DataModel.TradeAction))]
         public TradeAction TradeAction { get; set; }
     }
 }
