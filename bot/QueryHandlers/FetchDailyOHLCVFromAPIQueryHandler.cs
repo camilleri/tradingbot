@@ -43,12 +43,34 @@ namespace bot.QueryHandlers
         // [RetryableQuery(3)]
         public override IEnumerable<DailyOHLCV> Execute(FetchDailyOHLCVFromAPIQuery query)
         {
-            var fetchDailyOHLCVResponse = HttpClient.GetAsync<FetchDailyOHLCVResponse>("/data/histoday?fsym=BTC&tsym=USD&allData=true").Result;
+            var daysToFetch = int.MaxValue;
+            var path = $"/data/histoday?fsym={query.BaseCurrency}&tsym={query.QuoteCurrency}";
+            if (query.LastTime == null) // fech all data
+            {
+                path += "&allData=true";
+            }
+            else 
+            {
+                var lastAvailable = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 
+                    query.LastTime.Value.Hour, query.LastTime.Value.Minute, query.LastTime.Value.Second);
+                if (lastAvailable > DateTime.Now) {
+                    lastAvailable.AddDays(-1);
+                }
 
-            return fetchDailyOHLCVResponse.Data.Select(x => new DailyOHLCV
+                daysToFetch = (lastAvailable.Subtract(query.LastTime.Value)).Days;             
+                if (daysToFetch <= 0)
                 {
-                    BaseCurrency = "BTC", // todo
-                    QuoteCurrency = "USD", // todo
+                    return Enumerable.Empty<DailyOHLCV>();
+                }
+
+                path += $"&limit={daysToFetch}";
+            }
+
+            var fetchDailyOHLCVResponse = HttpClient.GetAsync<FetchDailyOHLCVResponse>(path).Result;
+            var dailyOHLCVs = fetchDailyOHLCVResponse.Data.Select(x => new DailyOHLCV
+                {
+                    BaseCurrency = query.BaseCurrency,
+                    QuoteCurrency = query.QuoteCurrency,
                     Time = ConversionUtils.UnixTimeStampToDateTime(x.Time),
                     Open = x.Open,
                     Close = x.Close,
@@ -56,6 +78,7 @@ namespace bot.QueryHandlers
                     VolumeFrom = x.VolumeFrom,
                     VolumeTo = x.VolumeTo
                 });
+            return dailyOHLCVs.OrderByDescending(x => x.Time).Take(daysToFetch); // doing Take because sometimes the limit param doesn't work
         }
     }
 }

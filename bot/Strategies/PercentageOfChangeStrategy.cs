@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using bot.Commands;
 using bot.Queries;
@@ -19,9 +21,15 @@ namespace bot.Strategies
 
         public void Initialise()
         {
-            // todo get latest entry and query only from latest entry until today
-            var dailyOHLCVs = _queryProcessor.Execute(new FetchDailyOHLCVFromAPIQuery());
-            _commandProcessor.Send(new SaveDailyOHLCVCommand(dailyOHLCVs));
+            string baseCurrency = "BTC"; // todo
+            string quoteCurrency = "EUR"; // todo
+
+            var dailyOHLCVs = _queryProcessor.Execute(new GetDailyOHLCVsQuery(baseCurrency, quoteCurrency));
+
+            var lastTime = dailyOHLCVs.Any() ? dailyOHLCVs.Max(x => x.Time) : (DateTime?)null;            
+            var newDailyOHLCVs = _queryProcessor.Execute(new FetchDailyOHLCVFromAPIQuery(baseCurrency, quoteCurrency, lastTime));
+
+            _commandProcessor.Send(new SaveDailyOHLCVCommand(newDailyOHLCVs));
         }
     }
 }
