@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace bot.QueryHandlers
 {
-    public class GetDailyOHLCVsQueryHandler : QueryHandler<GetDailyOHLCVsQuery, IEnumerable<DailyOHLCV>>
+    public class GetDailyOHLCVsQueryHandler : QueryHandler<GetDailyOHLCVsQuery, IOrderedEnumerable<DailyOHLCV>>
     {
         private readonly BotContext _dbContext;
 
@@ -20,9 +20,12 @@ namespace bot.QueryHandlers
         {
             _dbContext = dbContext;
         }
-        public override IEnumerable<DailyOHLCV> Execute(GetDailyOHLCVsQuery query)
+        public override IOrderedEnumerable<DailyOHLCV> Execute(GetDailyOHLCVsQuery query)
         {        
-            return _dbContext.DailyOHLCVs.Where(x => x.BaseCurrency == query.BaseCurrency && x.QuoteCurrency == x.QuoteCurrency);
+            return _dbContext.DailyOHLCVs
+                .Where(x => x.BaseCurrency == query.BaseCurrency && x.QuoteCurrency == x.QuoteCurrency)
+                .AsEnumerable()
+                .OrderByDescending(x => x.Time);
         }
     }
 }
