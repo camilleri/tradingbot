@@ -5,5 +5,6 @@ namespace bot.Strategies
     public interface IStrategy
     {
         void Initialise();
+        void Run();
     }
 }

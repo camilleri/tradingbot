@@ -9,22 +9,23 @@ namespace bot
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly IAmACommandProcessor _commandProcessor;
+        private readonly IStrategy _strategy;
 
         public Bot(IQueryProcessor queryProcessor, IAmACommandProcessor commandProcessor)
         {
             _queryProcessor = queryProcessor;
             _commandProcessor = commandProcessor;
+            _strategy = new PercentageOfChangeStrategy(_queryProcessor, _commandProcessor); // todo: register a list of strategies
         }
 
         public void Initialise()
-        {
-            var strategy = new PercentageOfChangeStrategy(_queryProcessor, _commandProcessor); // todo: register a list of strategies
-            strategy.Initialise();
+        {            
+            _strategy.Initialise();
         }
 
         public void Run()
         {
-            Console.WriteLine("Bot has been run!");
+            _strategy.Run();
         }
     }
 }

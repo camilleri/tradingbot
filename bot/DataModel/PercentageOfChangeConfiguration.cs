@@ -21,7 +21,7 @@ namespace bot.DataModel
         public DateTime Time { get; set; }
 
         [Required]
-        public double PercentageForChange { get; set; }
+        public Decimal PercentageForChange { get; set; }
 
         [Required]
         public int DaysForChange { get; set; }
